@@ -5,3 +5,10 @@ ICT
 450000
 100000
 20
+500
+Abdul Salam Ziyadi
+25
+Islamic Education
+200000
+50000
+10
