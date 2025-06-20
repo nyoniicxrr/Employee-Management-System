@@ -14,9 +14,13 @@ protected:
     double basicSalary;
 
 public:
+    // Getter method to return the employee's name
     string getName() { return Name; }
+
+    // Getter method to return the employee's ID
     int getID() { return employeeID; }
 
+    // Default constructor for the Employee class
     Employee() {
         employeeID = 0;
         Name = "";
@@ -25,16 +29,18 @@ public:
         basicSalary = 0.0;
     }
 
+    // Collects general employee information with input validation
     virtual void inputDetails() {
         cout << "Enter Employee Details:" << endl;
 
+        // Validate Employee ID (must be positive integer)
         while (true) {
             cout << "Employee ID: ";
             cin >> employeeID;
             if (cin.fail() || employeeID <= 0) {
                 cout << "Invalid ID." << endl;
-                cin.clear();
-                cin.ignore(1000, '\n');
+                cin.clear();                // clear input error flags
+                cin.ignore(1000, '\n');     // discard invalid input
             } else {
                 break;
             }
@@ -44,6 +50,7 @@ public:
         cout << "Name: ";
         getline(cin, Name);
 
+        // Validate Age (must be positive integer)
         while (true) {
             cout << "Age: ";
             cin >> Age;
@@ -60,6 +67,7 @@ public:
         cout << "Department: ";
         getline(cin, Department);
 
+        // Validate Basic Salary (must be non-negative)
         while (true) {
             cout << "Basic Salary: ";
             cin >> basicSalary;
@@ -73,6 +81,7 @@ public:
         }
     }
 
+    // Displays employee information
     virtual void displayDetails() {
         cout << "Employee Information:" << endl;
         cout << "ID: " << employeeID << endl;
@@ -82,6 +91,7 @@ public:
         cout << "Basic Salary: " << basicSalary << endl;
     }
 
+    // Saves employee information to file
     virtual void saveToFile(ofstream &ofs) {
         ofs << employeeID << endl;
         ofs << Name << endl;
@@ -90,6 +100,7 @@ public:
         ofs << basicSalary << endl;
     }
 
+    // Loads employee information from file
     virtual void loadFromFile(ifstream &ifs) {
         ifs >> employeeID;
         ifs.ignore();
@@ -100,47 +111,51 @@ public:
         ifs >> basicSalary;
     }
 
+    // Virtual destructor
     virtual ~Employee() {}
 };
 
-// Manager class
+// Manager class inherits from Employee
 class Manager : public Employee {
 private:
     double Bonus;
     int teamSize;
 
 public:
+    // Constructor
     Manager() {
         Bonus = 0.0;
         teamSize = 0;
     }
 
+    // Collects manager-specific input with validation
     void inputDetails() override {
         Employee::inputDetails();
 
+        // Validate Bonus
         while (true) {
             cout << "Bonus: ";
             cin >> Bonus;
             if (cin.fail() || Bonus < 0) {
-                cout << "Invalid. Enter a non negative number." << endl;
+                cout << "Invalid. Enter a non-negative number." << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
-            } else
-                break;
+            } else break;
         }
 
+        // Validate Team Size
         while (true) {
             cout << "Team Size: ";
             cin >> teamSize;
             if (cin.fail() || teamSize < 0) {
-                cout << "Invalid. Enter a non negative number." << endl;
+                cout << "Invalid. Enter a non-negative number." << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
-            } else
-                break;
+            } else break;
         }
     }
 
+    // Displays manager-specific information
     void displayDetails() override {
         Employee::displayDetails();
         cout << "Bonus: " << Bonus << endl;
@@ -148,12 +163,14 @@ public:
         cout << "Total Salary: " << basicSalary + Bonus << endl;
     }
 
+    // Saves manager data to file
     void saveToFile(ofstream &ofs) override {
         Employee::saveToFile(ofs);
         ofs << Bonus << endl;
         ofs << teamSize << endl;
     }
 
+    // Loads manager data from file
     void loadFromFile(ifstream &ifs) override {
         Employee::loadFromFile(ifs);
         ifs >> Bonus;
@@ -161,36 +178,39 @@ public:
     }
 };
 
-// Engineer class
+// Engineer class inherits from Employee
 class Engineer : public Employee {
 private:
     string Specialisation;
     double projectAllowance;
 
 public:
+    // Constructor
     Engineer() {
         Specialisation = "";
         projectAllowance = 0.0;
     }
 
+    // Collects engineer-specific data with validation
     void inputDetails() override {
         Employee::inputDetails();
         cin.ignore();
         cout << "Specialisation: ";
         getline(cin, Specialisation);
 
+        // Validate Project Allowance
         while (true) {
             cout << "Project Allowance: ";
             cin >> projectAllowance;
             if (cin.fail() || projectAllowance < 0) {
-                cout << "Invalid input. Enter non negative number." << endl;
+                cout << "Invalid input. Enter non-negative number." << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
-            } else
-                break;
+            } else break;
         }
     }
 
+    // Displays engineer-specific information
     void displayDetails() override {
         Employee::displayDetails();
         cout << "Specialisation: " << Specialisation << endl;
@@ -198,12 +218,14 @@ public:
         cout << "Total Salary: " << basicSalary + projectAllowance << endl;
     }
 
+    // Saves engineer data to file
     void saveToFile(ofstream &ofs) override {
         Employee::saveToFile(ofs);
         ofs << Specialisation << endl;
         ofs << projectAllowance << endl;
     }
 
+    // Loads engineer data from file
     void loadFromFile(ifstream &ifs) override {
         Employee::loadFromFile(ifs);
         ifs.ignore();
@@ -212,21 +234,24 @@ public:
     }
 };
 
-// Intern class
+// Intern class inherits from Employee
 class Intern : public Employee {
 private:
     int Duration;
     double Stipend;
 
 public:
+    // Constructor
     Intern() {
         Duration = 0;
         Stipend = 0.0;
     }
 
+    // Collects intern-specific input with validation
     void inputDetails() override {
         Employee::inputDetails();
 
+        // Validate Duration
         while (true) {
             cout << "Duration (months): ";
             cin >> Duration;
@@ -234,10 +259,10 @@ public:
                 cout << "Invalid. Enter a positive number." << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
-            } else
-                break;
+            } else break;
         }
 
+        // Validate Stipend
         while (true) {
             cout << "Stipend: ";
             cin >> Stipend;
@@ -245,23 +270,25 @@ public:
                 cout << "Invalid. Enter non-negative number." << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
-            } else
-                break;
+            } else break;
         }
     }
 
+    // Displays intern specific information
     void displayDetails() override {
         Employee::displayDetails();
         cout << "Duration: " << Duration << " months" << endl;
         cout << "Stipend: " << Stipend << endl;
     }
 
+    // Saves intern data to file
     void saveToFile(ofstream &ofs) override {
         Employee::saveToFile(ofs);
         ofs << Duration << endl;
         ofs << Stipend << endl;
     }
 
+    // Loads intern data from file
     void loadFromFile(ifstream &ifs) override {
         Employee::loadFromFile(ifs);
         ifs >> Duration;
@@ -269,11 +296,12 @@ public:
     }
 };
 
-// Main system class
+// Main class to manage employee system
 class EmployeeManagementSystem {
 private:
     vector<Employee *> employees;
 
+    // Loads all data from employee files
     void loadAllData() {
         clearEmployees();
         loadFromFile("manager.txt", 1);
@@ -281,10 +309,10 @@ private:
         loadFromFile("intern.txt", 3);
     }
 
+    // Loads specific type of employee data from file
     void loadFromFile(const string &filename, int type) {
         ifstream ifs(filename);
-        if (!ifs)
-            return;
+        if (!ifs) return;
 
         while (true) {
             Employee *emp = nullptr;
@@ -294,8 +322,7 @@ private:
                 emp = new Engineer();
             else if (type == 3)
                 emp = new Intern();
-            else
-                return;
+            else return;
 
             emp->loadFromFile(ifs);
             if (ifs)
@@ -308,6 +335,7 @@ private:
         ifs.close();
     }
 
+    // Frees memory and clears employee list
     void clearEmployees() {
         for (auto emp : employees)
             delete emp;
@@ -315,6 +343,7 @@ private:
     }
 
 public:
+    // Adds a new employee with unique check
     void addEmployee() {
         int choice;
         Employee *newEmployee = nullptr;
@@ -324,20 +353,23 @@ public:
         cout << "2. Engineer" << endl;
         cout << "3. Intern" << endl;
         cout << "Enter choice: ";
+
         while (!(cin >> choice) || choice < 1 || choice > 3) {
             cout << "Invalid input. Enter 1, 2 or 3: ";
             cin.clear();
             cin.ignore(1000, '\n');
         }
 
-        switch (choice) {
-            case 1: newEmployee = new Manager(); break;
-            case 2: newEmployee = new Engineer(); break;
-            case 3: newEmployee = new Intern(); break;
-        }
+        if (choice == 1)
+            newEmployee = new Manager();
+        else if (choice == 2)
+            newEmployee = new Engineer();
+        else
+            newEmployee = new Intern();
 
         newEmployee->inputDetails();
 
+        // Check for duplicate ID
         loadAllData();
         for (auto emp : employees) {
             if (emp->getID() == newEmployee->getID()) {
@@ -353,7 +385,7 @@ public:
             ofs.open("manager.txt", ios::app);
         else if (choice == 2)
             ofs.open("engineer.txt", ios::app);
-        else if (choice == 3)
+        else
             ofs.open("intern.txt", ios::app);
 
         if (ofs.is_open()) {
@@ -364,6 +396,7 @@ public:
         cout << "Employee added successfully." << endl;
     }
 
+    // Displays all employee records
     void viewAllEmployee() {
         loadAllData();
         if (employees.empty()) {
@@ -378,6 +411,7 @@ public:
         }
     }
 
+    // Searches for employee by ID or Name
     void searchEmployee() {
         loadAllData();
         int searchChoice;
@@ -411,7 +445,7 @@ public:
             if (!found)
                 cout << "Employee not found." << endl;
 
-        } else if (searchChoice == 2) {
+        } else {
             string name;
             cout << "Enter Name: ";
             cin.ignore();
@@ -428,6 +462,7 @@ public:
         }
     }
 
+    // Deletes an employee based on ID
     void deleteEmployee() {
         loadAllData();
         if (employees.empty()) {
@@ -462,18 +497,15 @@ public:
 
         if (found) {
             ofstream ofs("manager.txt");
-            for (auto m : updatedManagers)
-                m->saveToFile(ofs);
+            for (auto m : updatedManagers) m->saveToFile(ofs);
             ofs.close();
 
             ofs.open("engineer.txt");
-            for (auto e : updatedEngineers)
-                e->saveToFile(ofs);
+            for (auto e : updatedEngineers) e->saveToFile(ofs);
             ofs.close();
 
             ofs.open("intern.txt");
-            for (auto i : updatedInterns)
-                i->saveToFile(ofs);
+            for (auto i : updatedInterns) i->saveToFile(ofs);
             ofs.close();
 
             cout << "Employee deleted successfully." << endl;
@@ -484,10 +516,13 @@ public:
         clearEmployees();
     }
 
-    ~EmployeeManagementSystem() { clearEmployees(); }
+    // Destructor to clean up memory
+    ~EmployeeManagementSystem() {
+        clearEmployees();
+    }
 };
 
-// Main function
+// Main function: Entry point for the application
 int main() {
     EmployeeManagementSystem system;
     int choice;
@@ -501,6 +536,7 @@ int main() {
         cout << "4. Delete Employee" << endl;
         cout << "5. Exit" << endl;
         cout << "Enter choice: ";
+
         while (!(cin >> choice) || choice < 1 || choice > 5) {
             cout << "Invalid input. Enter a number between 1 and 5: ";
             cin.clear();
